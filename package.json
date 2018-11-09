@@ -1,0 +1,14 @@
+{
+  "name": "tdd_kata",
+  "version": "1.0.0",
+  "description": "TDD KATA Study",
+  "main": "index.js",
+  "scripts": {
+    "test": "jest"
+  },
+  "author": "ewcho@29cm.co.kr",
+  "license": "ISC",
+  "devDependencies": {
+    "jest": "^23.6.0"
+  }
+}
