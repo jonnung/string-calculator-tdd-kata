@@ -1,20 +1,13 @@
-module.exports = {
-  add: (numbers) => {
-    number_arr = numbers.split(/,|\n/);
+function add(numbers) {
+  const trim_numbers = numbers.replace(' ', '');
+  let number_arr = trim_numbers? trim_numbers.split(',') : [];
 
-    if (number_arr.length == 1) {
-      number_arr = number_arr[0].split('');
-    }
-
-    let sum = 0;
-    for (let num of number_arr) {
-      if (num === ' ') {
-        num = 0;
-      }
-
-      sum += parseInt(num);
-    }
-    
-    return sum;
+  sum = 0;
+  for (let num of number_arr) {
+    sum += parseInt(num);
   }
-};
+
+  return sum;
+}
+
+module.exports = add;

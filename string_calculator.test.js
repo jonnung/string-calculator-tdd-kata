@@ -1,58 +1,53 @@
-const string_calculator = require('./string_calculator');
+const add = require('./string_calculator');
 
-
-test('2개 숫자로 길이가 2인 문자열을 전달 받아 각 수의 합을 반환한다', () => {
+test('숫자 1개로 구성된 문자열을 전달 받아 합계를 반환한다', () => {
   // arrange
-  const numbers = '34';
+  const numbers = '5'
 
   // act
-  const sum = string_calculator.add(numbers)
+  res = add(numbers)
 
   // expect
-  expect(sum).toBe(7);
-});
-
-test('`numbers`의 값이 공백인 경우 0으로 간주한다', () => {
-  // arrange
-  const numbers = ' 2';
-
-  // act
-  const sum = string_calculator.add(numbers);
-
-  // expect
-  expect(sum).toBe(2);
-});
-
-test('`numbers`의 숫자들은 ,(콤마)를 구분자로 사용할 수 있다', () => {
-  // arrange
-  const numbers = '5,9';
-
-  // act
-  const sum = string_calculator.add(numbers);
-
-  // expect
-  expect(sum).toBe(14);
-});
-
-test('`numbers`는 2개 이상의 숫자나 공백을 포함 할 수 있다', () => {
-  // arrange
-  const numbers = '123 567 89';
-
-  // act
-  const sum = string_calculator.add(numbers);
-
-  // expect
-  expect(sum).toBe(41);
+  expect(res).toBe(5);
 });
 
 
-test('`numbers` 숫자들은 개행(\\n)을 구분자로 허용한다', () => {
+test('숫자 2개로 구성된 문자열을 전달 받아 합계를 반환한다', () => {
   // arrange
-  const numbers = "3\n7\n9";
+  const numbers = '5,6'
 
   // act
-  const sum = string_calculator.add(numbers);
+  res = add(numbers);
 
   // expect
-  expect(sum).toBe(19);
+
+  expect(res).toBe(11);
+
+});
+
+
+test('빈 문자열이나 공백은 0으로 취급한다', () => {
+  // arrange
+  const numbers1 = ''
+  const numbers2 = ' '
+
+  // act
+  res1 = add(numbers1);
+  res2 = add(numbers2);
+
+  // expect
+  expect(res1).toBe(0);
+  expect(res2).toBe(0);
+});
+
+
+test('2개 이상의 숫자를 전달받아 합계를 반환한다', () => {
+  // arrange
+  const numbers = '10,23,53,6,2'
+
+  // act
+  res = add(numbers);
+  
+  // expect
+  expect(res).toBe(94)
 });
