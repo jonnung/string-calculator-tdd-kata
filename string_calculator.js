@@ -1,9 +1,30 @@
 function add(numbers) {
-  const trim_numbers = numbers.replace(' ', '');
-  let number_arr = trim_numbers? trim_numbers.split(',') : [];
+  let delimeters = /,|\n/;
 
+  let temp_number_arr = numbers.split('\n');
+
+  if (temp_number_arr.length > 1) {
+    if (temp_number_arr[0].startsWith('//')) {
+      delimeters = temp_number_arr.shift().replace('//', '');
+    }
+    numbers = temp_number_arr.join('\n');
+  }
+
+  const numbers_arr = numbers.split(delimeters);
   sum = 0;
-  for (let num of number_arr) {
+  for (let num of numbers_arr) {
+    if (num == '' || num == ' ') {
+      num = 0;
+    }
+
+    if (num < 0) {
+      throw new Error('negatives not allowed');
+    }
+
+    if (num > 1000) {
+      continue;
+    }
+
     sum += parseInt(num);
   }
 
