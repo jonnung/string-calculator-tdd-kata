@@ -1,34 +1,49 @@
 function add(numbers) {
-  let delimeters = /,|\n/;
+  const data_config = set_delimiters_and_data(numbers);
+  const delimeters = data_config['delimiter'];
+  const data = data_config['data'];
 
-  let temp_number_arr = numbers.split('\n');
-
-  if (temp_number_arr.length > 1) {
-    if (temp_number_arr[0].startsWith('//')) {
-      delimeters = temp_number_arr.shift().replace('//', '');
-    }
-    numbers = temp_number_arr.join('\n');
-  }
-
-  const numbers_arr = numbers.split(delimeters);
-  sum = 0;
+  let sum = 0;
+  const numbers_arr = data.split(delimeters);
   for (let num of numbers_arr) {
-    if (num == '' || num == ' ') {
-      num = 0;
-    }
-
-    if (num < 0) {
-      throw new Error('negatives not allowed');
-    }
-
-    if (num > 1000) {
-      continue;
-    }
-
-    sum += parseInt(num);
+    let validated_num = validate_number(num);
+    sum += validated_num;
   }
 
   return sum;
+}
+
+function set_delimiters_and_data(str) {
+  const custom_delimter_pattern = /^\/\/(.+)\n/;
+  let delimeters = /,|\n/;
+  let data = str;
+
+  matched_custom_delimiter = str.match(custom_delimter_pattern);
+  if (matched_custom_delimiter) {
+    data = str.replace(matched_custom_delimiter[0], '');
+    delimeters = matched_custom_delimiter[1];
+  }
+
+  return {
+    'data': data,
+    'delimiter': delimeters
+  }
+}
+
+function validate_number(number) {
+  if (number == '' || number == ' ') {
+    number = 0;
+  }
+
+  if (number > 1000) {
+    number = 0;
+  }
+
+  if (number < 0) {
+    throw new Error('negatives not allowed');
+  }
+
+  return parseInt(number);
 }
 
 module.exports = add;
