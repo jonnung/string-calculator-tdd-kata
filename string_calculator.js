@@ -36,28 +36,36 @@ function reform_regexp_delimiters(delimiters) {
   let prev_char = '';
   let delimiters_arr = [];
 
-  if (split_delimiters.length > 1) {
-    for (let c of split_delimiters) {
-      if (prev_char === '') {
+  for (let i in split_delimiters) {
+    let c = escape(split_delimiters[i]);
+
+    if (split_delimiters.hasOwnProperty(i)) {
+      if (i == 0) {
+        pattern = c;
         prev_char = c;
-        pattern = '\\' + c;
         continue;
       }
-  
+
       if (c === prev_char) {
+        pattern += c;
         prev_char = c;
-        pattern += '\\' + c;
       } else {
         delimiters_arr.push(pattern);
-        pattern = '\\' + c;
+        pattern = c;
+        prev_char = c;
       }
     }
-    delimiters_arr.push(pattern);
-
-    return new RegExp(delimiters_arr.join('|'));
-  } else {
-    return delimiters;
   }
+
+  if (pattern !== '') {
+    delimiters_arr.push(pattern);
+  }
+
+  return new RegExp(delimiters_arr.join('|'));
+}
+
+function escape(str) {
+  return '\\' + str;
 }
 
 function validate_number(number) {
