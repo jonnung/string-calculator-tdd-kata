@@ -21,12 +21,42 @@ function set_delimiters_and_data(str) {
   matched_custom_delimiter = str.match(custom_delimter_pattern);
   if (matched_custom_delimiter) {
     data = str.replace(matched_custom_delimiter[0], '');
-    delimeters = matched_custom_delimiter[1];
+    delimeters = reform_regexp_delimiters(matched_custom_delimiter[1]);
   }
 
   return {
     'data': data,
     'delimiter': delimeters
+  }
+}
+
+function reform_regexp_delimiters(delimiters) {
+  const split_delimiters = delimiters.split('');
+  let pattern = '';
+  let prev_char = '';
+  let delimiters_arr = [];
+
+  if (split_delimiters.length > 1) {
+    for (let c of split_delimiters) {
+      if (prev_char === '') {
+        prev_char = c;
+        pattern = '\\' + c;
+        continue;
+      }
+  
+      if (c === prev_char) {
+        prev_char = c;
+        pattern += '\\' + c;
+      } else {
+        delimiters_arr.push(pattern);
+        pattern = '\\' + c;
+      }
+    }
+    delimiters_arr.push(pattern);
+
+    return new RegExp(delimiters_arr.join('|'));
+  } else {
+    return delimiters;
   }
 }
 
